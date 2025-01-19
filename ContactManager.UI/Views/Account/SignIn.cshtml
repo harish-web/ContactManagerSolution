@@ -1,0 +1,65 @@
+﻿@model SignInDTO
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="text-grey">
+    <span>Contacts</span>
+    <i class="fa-solid fa-caret-right"></i>
+    <span>SignIn</span>
+</div>
+
+<div class="form-container">
+    Not yet Registered? <a asp-action="Register" asp-controller="Account" class="link-hover">Register</a>
+    <h2 class="text-large">SignIn</h2>
+
+    <form asp-controller="Account" asp-action="SignIn" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+
+       
+        @*Email*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Email" class="form-label pt">Email</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Email" class="form-input" />
+                <span asp-validation-for="Email" class="text-red"></span>
+            </div>
+        </div>
+
+        @*Password*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Password" class="form-label pt">Password</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Password" class="form-input" />
+                <span asp-validation-for="Password" class="text-red"></span>
+            </div>
+        </div>
+
+       
+        @*SignIn button*@
+        <div class="form-field flex">
+            <div class="w-25"></div>
+            <div class="flex-1">
+                <button class="button button-green-back" type="submit">SignIn</button>
+
+                <div asp-validation-summary="All" class="text-red"></div>
+
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,117 @@
+﻿
+@inject SignInManager<ApplicationUser> signInManager
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="/css/StyleSheet.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    asp-fallback-test="window.jQuery"
+    asp-fallback-src="~/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"
+    integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    asp-fallback-test="window.jQuery.validator"
+    asp-fallback-src="~/jquery.validate.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
+    integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    asp-fallback-test="window.jQuery.validator.unobstrusive"
+    asp-fallback-src="~/jquery.validate.unobtrusive.min.js">
+    </script> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+    integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-content">
+
+            <div class="margin-bottom">
+
+                <div class="flex" id="top-bar-div">
+
+                    <div class="flex-1" id="app-title-div">
+                        <h1 class="app-title">
+                            <i class="fa-solid fa-people-simple"></i>
+                            Contact Manager
+                        </h1>
+                    </div>
+
+                    <div class="flex-1">
+
+                        <img src="~/images/netcorelogo.png" width="150px" height="80px" class="" asp-append-version="true" />
+
+                    </div>
+
+
+                    <div class="flex-1 pr" id="search-box-div">
+                        <div class="navbar account-links">
+
+                            <ul>
+                                <li>
+                                   
+                                </li>
+                                <li>
+                                    @if (!signInManager.IsSignedIn(User))
+                                    {
+                                        <a asp-controller="Account" asp-action="Register">Register</a>
+                                        <a asp-controller="Account" asp-action="SignIn">SignIn</a>
+                                    }
+                                    else
+                                    {
+                                        if(User.Identity.IsAuthenticated)
+                                        {
+                                            if(User.IsInRole("Admin"))
+                                            {
+                                                <a asp-controller="Home" asp-action="Index" asp-area="Admin">Admin Home</a>
+                                            }
+                                            <i class="fa-solid fa-user"></i>
+                                            @User.Identity?.Name
+                                            <a asp-controller="Account" asp-action="SignOut">SignOut</a>
+                                        }
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                 
+            </div>
+
+            <div class="navbar mb">
+
+                <ul>
+                    <li>
+                        <a asp-controller="Persons" asp-action="Index">Persons</a>
+                        <a asp-controller="Countries" asp-action="UploadFromExcel">Upload Countries</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+
+
+</html>
